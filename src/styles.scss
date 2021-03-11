@@ -1,1 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
+body{
+  margin: 0px !important;
+}
+
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';
+.row{
+  margin: -7.5px;
+  .colRestyle{
+    padding: 7.5px;
+  }
+}

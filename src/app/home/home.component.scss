@@ -1,0 +1,25 @@
+.main{
+  margin-top: 70px;
+  .tabs{
+    padding-top: 50px;
+    div{
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background:#0B212E;
+      padding: 7px 0px;
+      border: 2px solid #1F4D64;
+      cursor: pointer;
+      transition: .3s;
+      &:hover{
+        background: #0F7ABE;
+      }
+      h3{
+        color: white;
+        font-size: 18px;
+        margin: 0px;
+      }
+    }
+  }
+}
