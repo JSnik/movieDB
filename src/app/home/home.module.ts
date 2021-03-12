@@ -3,11 +3,20 @@ import {TrendingComponent} from './components/trending/trending.component';
 import {PopularComponent} from './components/popular/popular.component';
 import {RouterModule, Routes} from '@angular/router';
 import {HomeComponent} from './home.component';
+import {StoreModule} from '@ngrx/store';
+import {reducers} from './store/reducer';
+import {EffectsModule} from '@ngrx/effects';
+import {GetTrendingEffect} from './store/effects/getTrending.effects';
 
 const routes: Routes = [
   {
     path: 'home/:page',
     component: HomeComponent
+  },
+  {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'home/trending'
   }
 ];
 @NgModule({
@@ -17,7 +26,9 @@ const routes: Routes = [
     PopularComponent,
   ],
   imports: [
-    RouterModule.forChild(routes)
+    EffectsModule.forFeature([GetTrendingEffect]),
+    RouterModule.forChild(routes),
+    StoreModule.forFeature('trending', reducers),
   ],
   providers: [],
   exports: [
