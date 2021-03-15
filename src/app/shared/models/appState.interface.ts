@@ -1,5 +1,5 @@
-import {TrendingStateInterface} from '../../home/types/trendingState.interface';
+import {HomeStateInterface} from '../../home/types/homeState.interface';
 
 export interface AppStateInterface {
-  trending: TrendingStateInterface
+  trending: HomeStateInterface
 }

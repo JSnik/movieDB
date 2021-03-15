@@ -1,12 +1,11 @@
 import {NgModule} from '@angular/core';
-import {TrendingComponent} from './components/trending/trending.component';
-import {PopularComponent} from './components/popular/popular.component';
 import {RouterModule, Routes} from '@angular/router';
 import {HomeComponent} from './home.component';
 import {StoreModule} from '@ngrx/store';
 import {reducers} from './store/reducer';
 import {EffectsModule} from '@ngrx/effects';
 import {GetTrendingEffect} from './store/effects/getTrending.effects';
+import {CommonModule} from '@angular/common';
 
 const routes: Routes = [
   {
@@ -22,18 +21,16 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     HomeComponent,
-    TrendingComponent,
-    PopularComponent,
   ],
   imports: [
     EffectsModule.forFeature([GetTrendingEffect]),
     RouterModule.forChild(routes),
     StoreModule.forFeature('trending', reducers),
+    CommonModule,
   ],
   providers: [],
   exports: [
-    TrendingComponent,
-    PopularComponent
+    HomeComponent
   ]
 })
 

@@ -1,24 +1,24 @@
 import {createFeatureSelector, createSelector} from '@ngrx/store';
-import {TrendingStateInterface} from '../types/trendingState.interface';
+import {HomeStateInterface} from '../types/homeState.interface';
 import {AppStateInterface} from '../../shared/models/appState.interface';
 
 
 export const trendingFeatureSelector = createFeatureSelector<
   AppStateInterface,
-  TrendingStateInterface
+  HomeStateInterface
   >('trending')
 
 export const isLoadingSelector = createSelector(
   trendingFeatureSelector,
-  (trendingState: TrendingStateInterface) => trendingState.isLoading
+  (trendingState: HomeStateInterface) => trendingState.isLoading
 )
 
 export const errorSelector = createSelector(
   trendingFeatureSelector,
-  (trendingState: TrendingStateInterface) => trendingState.error
+  (trendingState: HomeStateInterface) => trendingState.error
 )
 
 export const trendingSelector = createSelector(
   trendingFeatureSelector,
-  (trendingState: TrendingStateInterface) => trendingState.data
+  (trendingState: HomeStateInterface) => trendingState.data
 )

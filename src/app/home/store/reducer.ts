@@ -1,9 +1,9 @@
 import {Action, createReducer, on} from '@ngrx/store';
-import {TrendingStateInterface} from '../types/trendingState.interface';
+import {HomeStateInterface} from '../types/homeState.interface';
 import {getTrendingAction, getTrendingFailureAction, getTrendingSuccessAction} from './actions/getTrending.action';
 
 
-const initialState: TrendingStateInterface = {
+const initialState: HomeStateInterface = {
   isLoading: false,
   error: null,
   data: null,
@@ -13,14 +13,14 @@ const trendingReducer = createReducer(
   initialState,
   on(
     getTrendingAction,
-    (state): TrendingStateInterface => ({
+    (state): HomeStateInterface => ({
       ...state,
       isLoading: true
     })
   ),
   on(
     getTrendingSuccessAction,
-    (state, action): TrendingStateInterface => ({
+    (state, action): HomeStateInterface => ({
       ...state,
       isLoading: false,
       data: action.trendingMovies
@@ -29,7 +29,7 @@ const trendingReducer = createReducer(
   ),
   on(
     getTrendingFailureAction,
-    (state): TrendingStateInterface => ({
+    (state): HomeStateInterface => ({
       ...state,
       isLoading: false,
     })
@@ -37,6 +37,6 @@ const trendingReducer = createReducer(
 );
 
 // tslint:disable-next-line:typedef
-export function reducers(state: TrendingStateInterface, action: Action) {
+export function reducers(state: HomeStateInterface, action: Action) {
   return trendingReducer(state, action);
 }

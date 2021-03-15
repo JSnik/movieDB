@@ -1,16 +1,42 @@
 <div class="main">
   <div class="container">
     <div class="tabs d-flex align-items-center">
-      <div><h3>Trending</h3></div>
-      <div><h3>Popular</h3></div>
-      <div><h3>Global</h3></div>
+      <a [routerLink]="['']" [routerLinkActive]="">
+        <div><h3>Trending</h3></div>
+      </a>
+      <a [routerLink]="['']" [routerLinkActive]="">
+        <div><h3>Popular</h3></div>
+      </a>
+      <a [routerLink]="['']" [routerLinkActive]="">
+        <div><h3>Global</h3></div>
+      </a>
     </div>
   </div>
-  <div class="trendingSection">
-    <app-trending></app-trending>
-  </div>
-  <div class="popularSection">
-    <app-popular></app-popular>
+  <div class="content">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-2 colRestyle" *ngFor="let item of (trending$ | async)?.results">
+          <img [src]="'https://image.tmdb.org/t/p/w200'+ item.poster_path"
+               alt="">
+          <div class="hover-content">
+            <div class="wrapper">
+              <div class="genre">
+                drama
+                comedy
+              </div>
+              <div class="view-page">
+                <button class="btn">
+                  View Details
+                </button>
+              </div>
+            </div>
+            <div class="title-section">
+              <h3>{{item?.title}}</h3>
+              <span>{{ item?.release_date }}</span>
+            </div>
+          </div>
+      </div>
+    </div>
   </div>
 </div>
 <router-outlet></router-outlet>
