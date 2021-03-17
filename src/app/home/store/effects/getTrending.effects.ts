@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {createEffect, Actions, ofType} from '@ngrx/effects';
-import {map, catchError, switchMap, tap} from 'rxjs/operators';
+import {map, catchError, switchMap, tap, delay} from 'rxjs/operators';
 import {HttpErrorResponse} from '@angular/common/http';
 import {of} from 'rxjs';
 import {getTrendingAction, getTrendingFailureAction, getTrendingSuccessAction} from '../actions/getTrending.action';

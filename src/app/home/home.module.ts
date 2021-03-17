@@ -6,16 +6,17 @@ import {reducers} from './store/reducer';
 import {EffectsModule} from '@ngrx/effects';
 import {GetTrendingEffect} from './store/effects/getTrending.effects';
 import {CommonModule} from '@angular/common';
+import {SharedModule} from '../shared/shared.module';
 
 const routes: Routes = [
   {
-    path: 'home/:page',
+    path: 'home/:pageId',
     component: HomeComponent
   },
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'home/trending'
+    redirectTo: 'home/pageId'
   }
 ];
 @NgModule({
@@ -27,6 +28,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     StoreModule.forFeature('trending', reducers),
     CommonModule,
+    SharedModule,
   ],
   providers: [],
   exports: [

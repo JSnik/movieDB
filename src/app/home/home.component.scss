@@ -76,6 +76,7 @@
             align-items: center;
             flex-direction: column;
               .genre{
+                margin-bottom: 10px;
                 span{
                   color: white;
                   font-size: 18px;
@@ -94,3 +95,7 @@
     }
   }
 }
+.error{
+  color: red !important;
+}
+

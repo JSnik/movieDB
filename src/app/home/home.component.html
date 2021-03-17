@@ -12,26 +12,35 @@
       </a>
     </div>
   </div>
+  <app-loader *ngIf="(loader$ | async)"></app-loader>
   <div class="content">
     <div class="container">
+      <div class="d-flex justify-content-between">
+        <h3 style="color:white;"  routerLink="../{{pageId}}" [queryParams]="{ page: 1 - 1 }" routerLinkActive="active"><<</h3>
+        <h3 style="color:white;" routerLink="../{{pageId}}" [queryParams]="{ page: 1 + 1 }" routerLinkActive="active">>></h3>
+      </div>
       <div class="row">
-        <div class="col-md-2 colRestyle" *ngFor="let item of (trending$ | async)?.results">
+        <div class="col-md-2 colRestyle" *ngFor="let item of (trending$ | async)?.results"
+             (mouseenter)="showGenre(item.id)">
           <img [src]="'https://image.tmdb.org/t/p/w200'+ item.poster_path"
                alt="">
           <div class="hover-content">
             <div class="wrapper">
-              <div class="genre">
-                <span>Drama</span> <br>
+              <div class="genre" *ngFor="let item of genresArr ">
+                <span>{{item.name}}</span> <br>
               </div>
               <div class="view-page">
-                <button class="btn">
-                  View Details
-                </button>
+                <a [routerLink]="['../../home/detail-page/',item.title]">
+                  <button class="btn">
+                    View Details
+                  </button>
+                </a>
               </div>
             </div>
             <div class="title-section">
               <h3>{{item?.title}}</h3>
               <span>{{ item?.release_date }}</span>
+              <span *ngIf="!item?.release_date" class="error">Date is not come</span>
             </div>
           </div>
       </div>

@@ -3,14 +3,12 @@ import {MoviesService} from '../shared/services/movies.service';
 import {select, Store} from '@ngrx/store';
 import {getTrendingAction} from './store/actions/getTrending.action';
 import {ActivatedRoute} from '@angular/router';
-import {Observable} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {TrendingResponseModel} from '../shared/models/trending-response.model';
-import {trendingSelector} from './store/selectors';
-import {GenresResponseInterface} from '../shared/models/genres-response.interface';
-import {getGenresAction} from '../shared/store/actions/getGenres.action';
-import {genresSelector} from '../shared/store/selectors';
-import {filter, map} from 'rxjs/operators';
-import {GenresService} from "../shared/services/genres.service";
+import {isLoadingSelector, trendingSelector} from './store/selectors';
+import {DetailPageService} from '../shared/services/detail-page.service';
+import {DetailPageGenres} from '../shared/models/detailPage.model';
+import {map} from 'rxjs/operators';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -21,30 +19,21 @@ export class HomeComponent implements OnInit {
   timeWindow: string;
   pageId: string;
   trending$: Observable<TrendingResponseModel>;
-  genres$: Observable<GenresResponseInterface>;
-
-  mapCategoryTypes: Map<string, string> = new Map<string, string>(
-    [
-      [
-        'id',
-        'name'
-      ]
-    ]);
-
+  loader$: Observable<boolean>
+  genresArr: DetailPageGenres[];
   constructor(private store: Store,
               private route: ActivatedRoute,
-              private genresService: GenresService) { }
+              private detailPageService: DetailPageService,
+              ) { }
 
   ngOnInit(): void {
-    this.initializeTrendingValues();
-    this.initializeGenresValue();
+    this.initializeTrendingValues()
     this.fetchDate();
-    this.getGenres();
+    this.initializeLoader()
   }
 
   fetchDate(): void {
     this.store.dispatch(getTrendingAction({mediaType: this.mediaType, timeWindow: this.timeWindow, pageId: this.pageId}));
-    this.store.dispatch(getGenresAction());
   }
 
   initializeTrendingValues(): void {
@@ -53,18 +42,15 @@ export class HomeComponent implements OnInit {
     this.pageId = '1';
     this.trending$ = this.store.pipe(select(trendingSelector));
   }
-  initializeGenresValue(): void {
-     this.store.pipe(select(genresSelector)).subscribe( res => {
-      console.log(res);
-    });
-  }
-  getGenres(): void {
-    this.trending$.pipe(
-      map( (genres) => ({
-        ...genres?.results,
-        genres: 'test',
-      }))
-    ).subscribe( res => console.log(res));
-  }
 
+  showGenre(id): void {
+    this.detailPageService.fetchDetailPage(id)
+      .subscribe( (res) => {
+        this.genresArr = res.genres.slice(0,1)
+        console.log(this.genresArr);
+      })
+  }
+  initializeLoader(): void {
+    this.loader$ = this.store.pipe(select(isLoadingSelector));
+  }
 }
