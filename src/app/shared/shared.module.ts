@@ -6,7 +6,10 @@ import {DetailPageService} from './services/detail-page.service';
 import { LoaderComponent } from './components/loader/loader.component';
 import { DetailPageComponent } from './components/detail-page/detail-page.component';
 import {RouterModule, Routes} from '@angular/router';
-import {HomeComponent} from '../home/home.component';
+import {TrailersService} from './services/trailers.service';
+import {SanitizeUrlPipe} from './pipes/sanitize-url.pipe';
+import {PersonService} from './services/person.service';
+
 
 const routes: Routes = [
   {
@@ -24,8 +27,9 @@ const routes: Routes = [
   declarations: [
 
   LoaderComponent,
-
-  DetailPageComponent],
+  DetailPageComponent,
+    SanitizeUrlPipe
+  ],
   imports: [
     HttpClientModule,
     CommonModule,
@@ -33,7 +37,9 @@ const routes: Routes = [
   ],
   providers: [
     MoviesService,
-    DetailPageService
+    DetailPageService,
+    TrailersService,
+    PersonService
   ],
   exports: [
     LoaderComponent

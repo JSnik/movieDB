@@ -10,13 +10,13 @@ import {SharedModule} from '../shared/shared.module';
 
 const routes: Routes = [
   {
-    path: 'home/:pageId',
+    path: 'home/:type',
     component: HomeComponent
   },
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'home/pageId'
+    redirectTo: 'home/trending'
   }
 ];
 @NgModule({

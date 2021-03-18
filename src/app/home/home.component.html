@@ -1,25 +1,37 @@
 <div class="main">
   <div class="container">
-    <div class="tabs d-flex align-items-center">
-      <a [routerLink]="['']" [routerLinkActive]="">
-        <div><h3>Trending</h3></div>
-      </a>
-      <a [routerLink]="['']" [routerLinkActive]="">
-        <div><h3>Popular</h3></div>
-      </a>
-      <a [routerLink]="['']" [routerLinkActive]="">
-        <div><h3>Global</h3></div>
-      </a>
+    <div class="tabs d-flex align-items-center flex-column">
+      <div class="d-flex w-100">
+        <a [routerLink]="['../trending']" routerLinkActive="active">
+          <div><h3>Trending</h3></div>
+        </a>
+        <a [routerLink]="['../popular']" routerLinkActive="active" (click)="fetchPopular()">
+          <div><h3>Popular</h3></div>
+        </a>
+      </div>
+      <div class="search" style="width: 100%;">
+        <input type="text" placeholder="Search..." (input)="getSearched($event)">
+        <div class="inner-search" *ngIf="searchIsClicked">
+          <div class="movieField" *ngFor="let searchedMovie of searchedMovies.results">
+            <div class="d-flex">
+              <div class="pic" [routerLink]="['../detail-page/'+ searchedMovie.id]">
+                <img src="https://image.tmdb.org/t/p/w300{{ searchedMovie?.poster_path }}" alt="">
+              </div>
+              <div class="title">
+                <h3> {{searchedMovie?.title}} </h3>
+                <p>{{ searchedMovie?.overview}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   <app-loader *ngIf="(loader$ | async)"></app-loader>
   <div class="content">
     <div class="container">
-      <div class="d-flex justify-content-between">
-        <h3 style="color:white;"  routerLink="../{{pageId}}" [queryParams]="{ page: 1 - 1 }" routerLinkActive="active"><<</h3>
-        <h3 style="color:white;" routerLink="../{{pageId}}" [queryParams]="{ page: 1 + 1 }" routerLinkActive="active">>></h3>
-      </div>
       <div class="row">
+      <ng-container *ngIf="!currentRoute">
         <div class="col-md-2 colRestyle" *ngFor="let item of (trending$ | async)?.results"
              (mouseenter)="showGenre(item.id)">
           <img [src]="'https://image.tmdb.org/t/p/w200'+ item.poster_path"
@@ -30,7 +42,7 @@
                 <span>{{item.name}}</span> <br>
               </div>
               <div class="view-page">
-                <a [routerLink]="['../../home/detail-page/',item.title]">
+                <a [routerLink]="['../../home/detail-page/',item.id]">
                   <button class="btn">
                     View Details
                   </button>
@@ -43,7 +55,34 @@
               <span *ngIf="!item?.release_date" class="error">Date is not come</span>
             </div>
           </div>
-      </div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="currentRoute">
+        <div class="col-md-2 colRestyle" *ngFor="let item of (popular$ | async)?.results"
+             (mouseenter)="showGenre(item.id)">
+          <img [src]="'https://image.tmdb.org/t/p/w200'+ item.poster_path"
+               alt="">
+          <div class="hover-content">
+            <div class="wrapper">
+              <div class="genre" *ngFor="let item of genresArr ">
+                <span>{{item.name}}</span> <br>
+              </div>
+              <div class="view-page">
+                <a [routerLink]="['../../home/detail-page/',item.id]">
+                  <button class="btn">
+                    View Details
+                  </button>
+                </a>
+              </div>
+            </div>
+            <div class="title-section">
+              <h3>{{item?.title}}</h3>
+              <span>{{ item?.release_date }}</span>
+              <span *ngIf="!item?.release_date" class="error">Date is not come</span>
+            </div>
+          </div>
+        </div>
+      </ng-container>
     </div>
   </div>
 </div>
